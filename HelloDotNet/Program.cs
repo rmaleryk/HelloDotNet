@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using HelloDotNet.Enums;
+using HelloDotNet.Models;
 
 namespace HelloDotNet
 {
@@ -8,23 +11,24 @@ namespace HelloDotNet
         static void Main(string[] args)
         {
             var message = "Hello .NET!";
+            var log = (string message) => { Console.WriteLine(message); };
 
             // Conditions
 
             if (message.Length > 5)
             {
-                Console.WriteLine($"Long: {message}");
+                log($"Long: {message}");
             }
             else
             {
-                Console.WriteLine($"Short: {message}");
+                log($"Short: {message}");
             }
 
             // Switch
 
             switch (message.Length)
             {
-                case 5: Console.WriteLine(message); return;
+                case 5: log(message); return;
             }
 
             // Ternary
@@ -54,11 +58,11 @@ namespace HelloDotNet
             try
             {
                 var d = first / second;
-                Console.WriteLine($"Result: {d}");
+                log($"Result: {d}");
             }
             catch (DivideByZeroException)
             {
-                Console.WriteLine($"The value cannot be 0");
+                log($"The value cannot be 0");
             }
 
             // Arrays and other data structures
@@ -67,15 +71,17 @@ namespace HelloDotNet
 
             foreach (var item in array)
             {
-                Console.WriteLine($"Item: {item}");
+                log($"Item: {item}");
             }
 
-            var list = new List<int> { 1, 2, 3 } as IEnumerable<int>;
+            var list = new List<int> { 1, 2, 3 };
 
             foreach (var item in list)
             {
-                Console.WriteLine($"Item: {item}");
+                log($"Item: {item}");
             }
+
+            var isAllMoreThanTwo = list.All((item) => item > 2);
 
             var linkedList = new LinkedList<int>();
             var stack = new Stack<int>();
@@ -85,15 +91,70 @@ namespace HelloDotNet
             var hashSet = new HashSet<int>(); // Keys storage
 
             var hasValue = dictionary.TryGetValue(1, out var value);
-            
+
             if (hasValue)
             {
-                Console.WriteLine($"Has value: {value}");
+                log($"Has value: {value}");
             }
             else
             {
-                Console.WriteLine($"Has value: {value}");
+                log($"Has value: {value}");
             }
+
+            // Enums
+
+            var devices = GetDeviceIds(DeviceType.Vacuum);
+
+            // Methods
+
+            var hasHumidifiers = TryGetDeviceIds(DeviceType.Humidifier, out var humidifierIds);
+
+            if (hasHumidifiers)
+            {
+                log($"Humidifiers: {string.Join(", ", humidifierIds)}");
+            }
+            else
+            {
+                log("No humidifiers found");
+            }
+
+            var initialDeviceType = DeviceType.Vacuum;
+            SetDeviceType(ref initialDeviceType);
+
+            log($"{initialDeviceType}");
+
+            // Classes
+
+            var device = new Device()
+            {
+                Id = 1,
+                Name = "Vacuum cleaner",
+                Type = DeviceType.Vacuum
+            };
+        }
+
+        public static int[] GetDeviceIds(DeviceType type)
+        {
+            // Some logic
+            return new[] { 1 };
+        }
+
+        public static bool TryGetDeviceIds(DeviceType type, out int[] deviceIds)
+        {
+            // Some logic
+            deviceIds = new[] { 1 };
+
+            return true;
+        }
+
+        public static void SetDeviceType(ref DeviceType type)
+        {
+            type = DeviceType.Socket;
+        }
+
+        public static void SetDeviceType(ref DeviceType type, int deviceId)
+        {
+            type = DeviceType.Socket;
         }
     }
 }
