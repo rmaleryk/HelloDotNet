@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using HelloDotNet.Enums;
+using HelloDotNet.Interfaces;
 using HelloDotNet.Models;
+using HelloDotNet.Services;
 
 namespace HelloDotNet
 {
@@ -131,6 +133,14 @@ namespace HelloDotNet
                 Name = "Vacuum cleaner",
                 Type = DeviceType.Vacuum
             };
+
+            // Services
+
+            IDeviceService deviceService = new FakeDeviceService();
+            var storedDevices = deviceService.GetDevices();
+
+            IUserService userService = new UserService();
+            var storedUsers = userService.GetUsers();
         }
 
         public static int[] GetDeviceIds(DeviceType type)
