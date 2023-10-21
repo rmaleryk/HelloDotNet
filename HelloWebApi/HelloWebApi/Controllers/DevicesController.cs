@@ -1,8 +1,8 @@
 using HelloWebApi.ClientModels.Devices;
-using HelloWebApi.Interfaces;
+using HelloWebApi.Exceptions;
+using HelloWebApi.Interfaces.Services;
 using HelloWebApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace HelloWebApi.Controllers
 {
@@ -11,14 +11,10 @@ namespace HelloWebApi.Controllers
     public class DevicesController : ControllerBase
     {
         private readonly IDeviceService _deviceService;
-        private readonly ILogger<DevicesController> _logger;
 
-        public DevicesController(
-            IDeviceService deviceService,
-            ILogger<DevicesController> logger)
+        public DevicesController(IDeviceService deviceService)
         {
             _deviceService = deviceService;
-            _logger = logger;
         }
 
         [HttpGet]
@@ -54,12 +50,19 @@ namespace HelloWebApi.Controllers
             var device = new Device
             {
                 Name = requestModel.Name,
-                Type = requestModel.Type
+                Type = requestModel.Type.Value
             };
 
-            var storedDevice = _deviceService.AddDevice(device);
+            try
+            {
+                var storedDevice = _deviceService.AddDevice(device);
 
-            return Ok(storedDevice);
+                return Ok(storedDevice);
+            }
+            catch (BadOperationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpPut("{id:int}")]

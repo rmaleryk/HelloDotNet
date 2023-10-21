@@ -9,9 +9,5 @@ namespace HelloWebApi.Models
         public string Name { get; set; }
 
         public DeviceType Type { get; set; }
-
-        public string Identifier => $"{Id}:{Name}:{InternalType}";
-
-        protected virtual int InternalType => 3;
     }
 }

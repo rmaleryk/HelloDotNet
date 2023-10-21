@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using HelloWebApi.Enums;
-using HelloWebApi.Interfaces;
+using HelloWebApi.Interfaces.Services;
 using HelloWebApi.Models;
 
 namespace HelloWebApi.Services

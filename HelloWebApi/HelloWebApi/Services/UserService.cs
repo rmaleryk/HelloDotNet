@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using HelloWebApi.Interfaces;
+using HelloWebApi.Interfaces.Services;
 using HelloWebApi.Models;
 
 namespace HelloWebApi.Services
